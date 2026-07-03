@@ -238,8 +238,7 @@ abstract class SegmentDisplay extends StatelessWidget {
         continue;
       }
       // Regular character — peek for following dot.
-      final hasDot =
-          i + 1 < value.length && value[i + 1] == decimalPoint;
+      final hasDot = i + 1 < value.length && value[i + 1] == decimalPoint;
       result.add((char, hasDot, false));
       i += hasDot ? 2 : 1;
     }
@@ -283,8 +282,7 @@ abstract class SegmentDisplay extends StatelessWidget {
           CharacterSegmentMap.dividerCharacters['decimalPoint']!;
       final colon = CharacterSegmentMap.dividerCharacters['colon']!;
       final pairs = _buildRenderPairs(decimalPoint, colon);
-      final charCount = characterCount ??
-          pairs.where((p) => !p.$3).length;
+      final charCount = characterCount ?? pairs.where((p) => !p.$3).length;
       final colonCount = pairs.where((p) => p.$3).length;
       final totalItems = charCount + colonCount;
 
@@ -307,8 +305,7 @@ abstract class SegmentDisplay extends StatelessWidget {
     final dividers = CharacterSegmentMap.dividerCharacters.values;
     final charCount = characterCount ??
         value.split('').where((c) => !dividers.contains(c)).length;
-    final dividerCharCount =
-        value.split('').where(dividers.contains).length;
+    final dividerCharCount = value.split('').where(dividers.contains).length;
     final totalItems = charCount + dividerCharCount;
 
     final charsWidth = charCount * (2 * segmentSize.width + segmentSize.height);

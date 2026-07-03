@@ -19,6 +19,7 @@ class _AppState extends State<App> {
   late Color _accentColor;
   late String _text;
   late TextEditingController _controller;
+  String _submittedText = '';
 
   @override
   void initState() {
@@ -50,6 +51,15 @@ class _AppState extends State<App> {
     setState(() {
       _displayType = type;
     });
+  }
+
+  SegmentDisplayType get _fieldDisplayType {
+    const types = [
+      SegmentDisplayType.seven,
+      SegmentDisplayType.fourteen,
+      SegmentDisplayType.sixteen,
+    ];
+    return types[_displayType];
   }
 
   void _changeColor(Color color) {
@@ -114,10 +124,8 @@ class _AppState extends State<App> {
               itemBuilder: (context) {
                 return [
                   const PopupMenuItem<int>(value: 0, child: Text('7-segment')),
-                  const PopupMenuItem<int>(
-                      value: 1, child: Text('14-segment')),
-                  const PopupMenuItem<int>(
-                      value: 2, child: Text('16-segment')),
+                  const PopupMenuItem<int>(value: 1, child: Text('14-segment')),
+                  const PopupMenuItem<int>(value: 2, child: Text('16-segment')),
                 ];
               },
             ),
@@ -156,39 +164,95 @@ class _AppState extends State<App> {
             ),
           ],
         ),
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              _Display(
-                value: DateFormat('HH:mm').format(DateTime.now()),
-                size: 7.0,
-                type: _displayType,
-                style: _segmentStyle,
-              ),
-              const SizedBox(height: 100),
-              _Display(
-                value: _text,
-                size: 7.0,
-                type: _displayType,
-                style: _segmentStyle,
-              ),
-              const SizedBox(height: 50),
-              SizedBox(
-                width: 250.0,
-                child: TextField(
-                  controller: _controller,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Change me',
-                  ),
-                  maxLength: 20,
-                  onChanged: (String text) async {
-                    setState(() => _text = text.isEmpty ? ' ' : text);
-                  },
+        body: SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(vertical: 40),
+          child: Center(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                _Display(
+                  value: DateFormat('HH:mm').format(DateTime.now()),
+                  size: 7.0,
+                  type: _displayType,
+                  style: _segmentStyle,
                 ),
-              ),
-            ],
+                const SizedBox(height: 100),
+                _Display(
+                  value: _text,
+                  size: 7.0,
+                  type: _displayType,
+                  style: _segmentStyle,
+                ),
+                const SizedBox(height: 50),
+                SizedBox(
+                  width: 250.0,
+                  child: TextField(
+                    controller: _controller,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Change me',
+                    ),
+                    maxLength: 20,
+                    onChanged: (String text) async {
+                      setState(() => _text = text.isEmpty ? ' ' : text);
+                    },
+                  ),
+                ),
+                const SizedBox(height: 60),
+                const Divider(color: Colors.white24),
+                const SizedBox(height: 20),
+                Text(
+                  'SegmentDisplayField — tap to type',
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleSmall
+                      ?.copyWith(color: Colors.white70),
+                ),
+                const SizedBox(height: 16),
+                Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(color: _accentColor, width: 1.5),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 24,
+                    vertical: 20,
+                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      SegmentDisplayField(
+                        displayType: _fieldDisplayType,
+                        size: 5.0,
+                        maxLength: 8,
+                        segmentStyle: _segmentStyle,
+                        onChanged: (_) => setState(() {}),
+                        onSubmitted: (text) =>
+                            setState(() => _submittedText = text),
+                      ),
+                      const SizedBox(height: 12),
+                      Text(
+                        'tap · type · done to submit',
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodySmall
+                            ?.copyWith(color: Colors.white38),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 12),
+                if (_submittedText.isNotEmpty)
+                  Text(
+                    'Submitted: $_submittedText',
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodySmall
+                        ?.copyWith(color: Colors.white54),
+                  ),
+                const SizedBox(height: 40),
+              ],
+            ),
           ),
         ),
       ),

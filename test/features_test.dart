@@ -37,8 +37,7 @@ void main() {
     });
 
     test('single character with characterCount=3', () {
-      final d =
-          SevenSegmentDisplay(value: '1', size: size, characterCount: 3);
+      final d = SevenSegmentDisplay(value: '1', size: size, characterCount: 3);
       final s = d.computeSize();
       // 3 char slots, 2 spacings
       expect(s.width, 3 * charW + 2 * spacing);

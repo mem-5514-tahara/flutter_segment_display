@@ -79,7 +79,7 @@ class Segment {
       : this(path: style.createPath14B(segmentSize, padding));
 
   /// Creates bottom right vertical segment in 14-segment display
-  Segment.fourteenC(SegmentStyle style/*!*/, Size segmentSize, double padding)
+  Segment.fourteenC(SegmentStyle style /*!*/, Size segmentSize, double padding)
       : this(path: style.createPath14C(segmentSize, padding));
 
   /// Creates bottom segment in 14-segment display

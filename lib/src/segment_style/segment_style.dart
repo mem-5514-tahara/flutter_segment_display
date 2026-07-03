@@ -85,7 +85,9 @@ abstract class SegmentStyle {
     );
     final bottomHalf = topHalf.translate(0, 2 * pos.top);
 
-    return Path()..addRect(topHalf)..addRect(bottomHalf);
+    return Path()
+      ..addRect(topHalf)
+      ..addRect(bottomHalf);
   }
 
   //
